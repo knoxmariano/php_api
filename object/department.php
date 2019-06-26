@@ -1,6 +1,6 @@
 <?php
 
-class Department {
+class department {
 
     // database connection and table name
     private $conn;
@@ -13,9 +13,8 @@ class Department {
     public function __construct($db) {
         $this->conn = $db;
     }
-}
 
-// read departments
+    // read departments
     function read() {
         // query to select all
         $query = "SELECT d.dept_id, d.dept_name
@@ -103,3 +102,6 @@ class Department {
 
         return false;
     }
+
+}
+

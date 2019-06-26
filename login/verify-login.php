@@ -1,33 +1,34 @@
 <?php
-
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: PUT");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // include database and object files
 include_once '../config/db.php';
 include_once '../object/login.php';
 
-// instantiate database and department object
 $database = new db();
 $db = $database->getConnection();
 
-// initialize object
-$login = new login($db);
+$login = new login($db)
 
-// query department
-$stmt = $login -> read();
+$data = json_decode(file_get_contents("php//input", true ));
+
+$login->uname = $data->uname;
+$login->uname = $data->upass;
+
+$stmt = $login -> verify();
 $num = $stmt -> rowCount();
 
-// check if more than 0 record found
 if ($num > 0) {
-    // department array
+
     $login_arr = array();
     $login_arr["records"] = array();
 
-    // retrieve table contents
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        // extract row
         extract($row);
         $login_item = array(
             "id" => $row['id'],

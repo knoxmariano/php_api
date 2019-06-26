@@ -15,10 +15,10 @@ class login {
         $this->conn = $db;
     }
 
-    // read departments
+    // read login
     function read() {
         // query to select all
-        $query = "SELECT d.id, d.uname, d.upass
+        $query = "SELECT d.id, d.uname, d.upass, d.firstname, d.lastname, d.access, d.designation
             FROM
                 " . $this->table_name . " d
             ORDER BY
@@ -28,6 +28,28 @@ class login {
         // execute query
         $stmt->execute();
         return $stmt;
+    }
+
+    // verify
+    function verify() {
+        $query = "SELECT d.id, d.uname, d.upass, d.firstname, d.lastname, d.access, d.designation
+            FROM
+                " . $this->table_name . " d
+                WHERE uname = :uname AND upass = :upass";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->uname = htmlspecialchars(strip_tags($this->uname));
+        $this->upass = htmlspecialchars(strip_tags($this->upass));
+
+        $this->bindParam(':uname', $this->uname);
+        $this->bindParam(':upass', $this->upass);
+
+        if ($stmt->execute()){
+            return $stmt;
+        } else {
+            return false;
+        }
     }
 
 }

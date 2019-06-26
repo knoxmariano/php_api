@@ -13,7 +13,7 @@ include_once '../object/login.php';
 $database = new db();
 $db = $database->getConnection();
 
-$login = new login($db)
+$login = new login($db);
 
 $data = json_decode(file_get_contents("php//input", true ));
 

@@ -2,9 +2,9 @@
 // required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: PUT");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
 // include database and object files
 include_once '../config/db.php';
@@ -15,10 +15,12 @@ $db = $database->getConnection();
 
 $login = new login($db);
 
-$data = json_decode(file_get_contents("php//input", true ));
+echo phpversion();
+//Get raw posted data
+$data = json_decode(file_get_contents("php//input", TRUE));
 
 $login->uname = $data->uname;
-$login->uname = $data->upass;
+$login->upame = $data->upass;
 
 $stmt = $login -> verify();
 $num = $stmt -> rowCount();
@@ -47,4 +49,5 @@ if ($num > 0) {
             array("message" => "No user found.")
     );
 }
+
 ?>
